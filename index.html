@@ -4,19 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Weather YO!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<div id="temp">
-
-
+<!--Header-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-top text-center text-white bg-dark mb-3">
+                <div class="card-body-top">WEATHER DASHBOARD</div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!--Search div-->
+<div class="row">
+  <div class="col-lg-12">Search for a City:</div>
+  <span id="error"></span>
+</div>
 
+<div class="row">
+  <div class="col-lg-5">
+    <!-- Text Input Box -->
+    <input type="text" id="city-input">
+    <button class="btn btn-large btn-primary" id="search-button" type="submit" value="Search">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+</div>
+<div class="col-lg-7"></div>
+    <br>
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="card" style="border: none">
+          <!-- main div searched city -->
+          <div class="city-card-body" id="searched-city">
+          </div>
+        </div>
+      </div>
+      <!-- Empty columns between searched cities and current weather -->
+      <div class="col-lg-2"></div>
+      <!-- Column for Current Weather -->
+      <div class="col-lg-8">
+        <div class="city-and-date">
+          <h3 class="city"></h3>
+          <h3 class="today-date"></h3>
+          <h3 class="condition-image"></h3>
+        </div>
+        <br><br>
+        <div class="weather-info"></div>
+        <!-- Ending div for colummn -->
+      </div>
+    </div>
+    <br>
+    <!-- ROW for 5-day forecast  -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 id="five-day-text"></h2>
+      </div>
+    </div>
+    <!-- ROW div for 5 day forecast -->
+    <div class="row forecastCards"></div>
+  </div>
+  </div>
 
-    <!-- jQuery JS -->
-<script src="https://code.jquery.com/jquery.js"></script>
+<!-- jQuery JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- Moments -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <!-- Code to the Javascript File -->
 <script src="weather.js"></script>
