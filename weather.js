@@ -30,8 +30,8 @@ $.ajax({url: weatherURL, method: "GET"})
     // console.log("current date" + currentDate);
     var icon = weatherInfo.weather[0].icon
     console.log(cityName)
-    $(".city-and-date").append(cityName + " ");
-    $(".city-and-date").append(currentDate + " ");
+    $(".city-and-date").append("<b>"+ cityName + " " + "</b>");
+    $(".city-and-date").append("<b>"+ currentDate + " " + "</b>");
     $(".city-and-date").append(`<img src="http://openweathermap.org/img/w/${icon}.png">`);
 
     var kelvin = weatherInfo.main.temp;
@@ -55,7 +55,7 @@ $.ajax({url: weatherURL, method: "GET"})
 })
 })
 
-
+//function for getting UV index
 function uvIndex(lon, lat) {
 	var indexURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`;
         console.log(indexURL);
@@ -66,10 +66,53 @@ function uvIndex(lon, lat) {
         console.log(uvInfo)
         var uvValue = uvInfo.value;
         console.log(uvValue);
-
-        
+        $(".weather-info").append("<p id='uv'>" + "UV Index: " + "</p>");
+		var uvBtn = $("<button>").text(uvValue);
+		$("#uv").append(uvBtn);
+		//button styles
+		if (uvValue < 3) {
+			uvBtn.css("background-color", "Green");
+		} else if (uvValue < 6) {
+			uvBtn.css("background-color", "Yellow");
+		} else if (uvValue < 8) {
+			uvBtn.css("background-color", "Orange");
+		} else if (uvValue < 11) {
+			uvBtn.css("background-color", "Red");
+		} else {
+			uvBtn.css("background-color", "Purple");
+		}
     })
 }
+
+var candy = "Seattle";
+function fiveDay(candy) {
+	var fiveURL = `https://api.openweathermap.org/data/2.5/forecast?q=${candy}&appid=${apiKey}`;
+    console.log(fiveURL);
+    $.ajax({
+		url: fiveURL,
+		method: "GET"
+	}).then(function(response) {
+        console.log(response);
+        // var j = i;
+        for (var i = 1; i < response.list.length; i+=8) {
+            console.log(response.list[i]);
+            var nextDay = moment.unix(response.list[i].dt).utc().format("L");
+            console.log(nextDay);
+            $(".forecastCards").append("<div class='card-body'>" + "<b>" + nextDay + "</b>" + "</div>")
+            // var forecastIcon = response.list[i].weather[0].icon
+            // $(".card-body").append(`<img src="http://openweathermap.org/img/w/${forecastIcon}.png">`)
+            var kelvin = response.list[i].main.temp;
+            var fahrenheit  = ((kelvin - 273.15) * 1.8 + 32).toFixed(0);
+            $(".card-body").append("<p>"+"Temp: " + fahrenheit  + " °F"+"</p>")
+        //    j++
+        }
+
+
+
+    })
+}
+
+fiveDay(candy);
 
 // })
 // }

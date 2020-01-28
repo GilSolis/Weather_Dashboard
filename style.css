@@ -21,11 +21,8 @@ padding: 0;
     
 }
 
-#main {
-
-border: 2px solid blue;
-float: right;
-}
+/* #main {
+} */
 
 .city-and-date{
     display: inline-flex;
