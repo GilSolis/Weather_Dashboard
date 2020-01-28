@@ -4,15 +4,30 @@ margin: 0;
 padding: 0;    
 }
 
+.navbar{
+    position: relative;
+    align-items: center;
+}
+.navbar-brand {
+    display: inline-block;
+}
 
 .container {
 
     border: 5px solid red;
     width: 100%;
     height: 100%;
+    display: block;
+    
 }
 
 #main {
 
-    border: 2px solid blue;
+border: 2px solid blue;
+float: right;
 }
+
+.city-and-date{
+    display: inline-flex;
+}
+
