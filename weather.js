@@ -93,20 +93,22 @@ function fiveDay(candy) {
 		method: "GET"
 	}).then(function(response) {
         console.log(response);
-        // var j = i;
+        var day = 1;
         for (var i = 1; i < response.list.length; i+=8) {
             console.log(response.list[i]);
             var nextDay = moment.unix(response.list[i].dt).utc().format("L");
             console.log(nextDay);
-            $(".forecastCards").append("<div class='card-body'>" + "<b>" + nextDay + "</b>" + "</div>")
-            // var forecastIcon = response.list[i].weather[0].icon
-            // $(".card-body").append(`<img src="http://openweathermap.org/img/w/${forecastIcon}.png">`)
+            $(".forecastCards").append('<div id="day'+day+'" >' + "<b>" + nextDay + "</b>" + "</div>")
+            var forecastIcon = response.list[i].weather[0].icon
+            $(`#day${day}`).append("<p>" + `<img src="http://openweathermap.org/img/w/${forecastIcon}.png">`+ "</p>")
             var kelvin = response.list[i].main.temp;
             var fahrenheit  = ((kelvin - 273.15) * 1.8 + 32).toFixed(0);
-            $(".card-body").append("<p>"+"Temp: " + fahrenheit  + " °F"+"</p>")
-        //    j++
-        }
+            $(`#day${day}`).append("<p>"+"Temp: " + fahrenheit  + " °F"+"</p>")
+            var humidity = response.list[i].main.humidity
+            $(`#day${day}`).append("<p>"+"Humidity: " + humidity + "</p>")
 
+           day++
+       }
 
 
     })

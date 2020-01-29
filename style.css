@@ -28,3 +28,12 @@ padding: 0;
     display: inline-flex;
 }
 
+.forecastCards{
+text-align: justify;
+}
+
+/* #day1 #day2 #day3 #day4 #day5 {
+
+    border: 5px solid black !important;
+} */
+
