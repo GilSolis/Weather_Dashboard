@@ -1,59 +1,50 @@
-var city = '';
+$(document).ready(function(){
+
+// var city = '';
 var apiKey = "e377cfd09121f92909adfe704738ccd1";
 
-// $(document).ready(function (){
-//     console.log(city);
-//     $("#main").empty();
-//     // var city = citiesArray[0];
-//     // fiveDay(city);
-//     searchCity();
-
-// });
-
 // function searchCity(){
+function displayCurrentWeather(city){
+        var weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
 
-$('#search-button').on('click', function(){
-city = $( "#city-input" ).val();
-console.log(city);
+        $.ajax({url: weatherURL, method: "GET"})
+        .done(function(weatherInfo){
 
-var weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+            $(".weather-info").empty();
+            $(".city-and-date").empty();
+            $("#main").empty();
+            console.log(weatherInfo)
+            var cityName = weatherInfo.name;
+            var dt = weatherInfo.dt;
+            // console.log(dateInfo);
+            var currentDate = moment.unix(dt).format("L");
+            // console.log("current date" + currentDate);
+            var icon = weatherInfo.weather[0].icon
+            console.log(cityName)
+            $(".city-and-date").append("<b>"+ cityName + " " + "</b>");
+            $(".city-and-date").append("<b>"+ currentDate + " " + "</b>");
+            $(".city-and-date").append(`<img src="http://openweathermap.org/img/w/${icon}.png">`);
 
-$.ajax({url: weatherURL, method: "GET"})
-.done(function(weatherInfo){
+            var kelvin = weatherInfo.main.temp;
+            var fahrenheit  = ((kelvin - 273.15) * 1.8 + 32).toFixed(0);
+            $(".weather-info").append("<p>"+"Temperature: " + fahrenheit  + " °F"+"</p>");
 
-    console.log(weatherInfo)
+            var humidity = weatherInfo.main.humidity;
+            $(".weather-info").append("<p>"+"Humidity: " + humidity + "%"+"</p>");
 
-    var cityName = weatherInfo.name;
-    var dt = weatherInfo.dt;
-    // console.log(dateInfo);
-    var currentDate = moment.unix(dt).format("L");
-    // console.log("current date" + currentDate);
-    var icon = weatherInfo.weather[0].icon
-    console.log(cityName)
-    $(".city-and-date").append("<b>"+ cityName + " " + "</b>");
-    $(".city-and-date").append("<b>"+ currentDate + " " + "</b>");
-    $(".city-and-date").append(`<img src="http://openweathermap.org/img/w/${icon}.png">`);
+            var windSpeed = weatherInfo.wind.speed;
+            var newSpeed = (windSpeed * 2.2369).toFixed(2);
+            $(".weather-info").append("<p>"+ "Wind Speed: " + newSpeed + " MPH"+"</p>");
 
-    var kelvin = weatherInfo.main.temp;
-    var fahrenheit  = ((kelvin - 273.15) * 1.8 + 32).toFixed(0);
-    $(".weather-info").append("<p>"+"Temperature: " + fahrenheit  + " °F"+"</p>");
-
-    var humidity = weatherInfo.main.humidity;
-    $(".weather-info").append("<p>"+"Humidity: " + humidity + "%"+"</p>");
-
-    var windSpeed = weatherInfo.wind.speed;
-	var newSpeed = (windSpeed * 2.2369).toFixed(2);
-    $(".weather-info").append("<p>"+ "Wind Speed: " + newSpeed + " MPH"+"</p>");
-
-    var lon = weatherInfo.coord.lon;
-    var lat = weatherInfo.coord.lat;
-    console.log("***" + lat);
-
-    uvIndex(lon, lat);
-    console.log(uvIndex);
+            var lon = weatherInfo.coord.lon;
+            var lat = weatherInfo.coord.lat;
+            console.log("***" + lat);
+           
+            uvIndex(lon, lat);
+            console.log(uvIndex);
     
-})
-})
+    });
+};
 
 //function for getting UV index
 function uvIndex(lon, lat) {
@@ -84,10 +75,11 @@ function uvIndex(lon, lat) {
     })
 }
 
-var candy = "Seattle";
-function fiveDay(candy) {
-	var fiveURL = `https://api.openweathermap.org/data/2.5/forecast?q=${candy}&appid=${apiKey}`;
+// var candy = "Seattle";
+function fiveDay(city) {
+	var fiveURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
     console.log(fiveURL);
+    $(".forecastCards").empty();
     $.ajax({
 		url: fiveURL,
 		method: "GET"
@@ -114,8 +106,19 @@ function fiveDay(candy) {
     })
 }
 
-fiveDay(candy);
+$('#search-button').on('click', function(event){
+    event.preventDefault();
+    var city = $( "#city-input" ).val().trim();
+    // localstorage set item goes here
+    console.log(city);
 
+    displayCurrentWeather(city);
+    fiveDay(city);
+
+
+})
+})
+// fiveDay(candy);
 // })
 // }
 
