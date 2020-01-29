@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function (){
 
 // var city = '';
 var apiKey = "e377cfd09121f92909adfe704738ccd1";
@@ -7,7 +7,7 @@ var cityArray = JSON.parse(localStorage.getItem('searchedCity'));
 if (cityArray) {
     displayCurrentWeather(cityArray[0]);
     fiveDay(cityArray[0])
-    displaySearchedCity();
+    displaySearchedCity(cityArray[0]);
 } else {
     cityArray = []
 }
@@ -52,8 +52,8 @@ function displayCurrentWeather(city){
             // console.log("current date" + currentDate);
             var icon = weatherInfo.weather[0].icon
             console.log(cityName)
-            $(".city-and-date").append("<b>"+ cityName + " " + "</b>");
-            $(".city-and-date").append("<b>"+ currentDate + " " + "</b>");
+            $(".city-and-date").append("<b>" + cityName + "\xa0\xa0" + "</b>");
+            $(".city-and-date").append("<b>" + currentDate  + "</b>");
             $(".city-and-date").append(`<img src="http://openweathermap.org/img/w/${icon}.png">`);
 
             var kelvin = weatherInfo.main.temp;
