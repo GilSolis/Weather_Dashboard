@@ -2,8 +2,39 @@ $(document).ready(function(){
 
 // var city = '';
 var apiKey = "e377cfd09121f92909adfe704738ccd1";
+var cityArray = JSON.parse(localStorage.getItem('searchedCity'));
 
-// function searchCity(){
+if (cityArray) {
+    displayCurrentWeather(cityArray[0]);
+    fiveDay(cityArray[0])
+    displaySearchedCity();
+} else {
+    cityArray = []
+}
+
+// function to display searched cities.
+function displaySearchedCity(){
+    $(".city-card-body").empty();
+    console.log(cityArray);
+    // for loop over the cityarry and then dynamically append each item in the array to the city-card-body. 
+    for (var i = 0; i < cityArray.length; i++) {
+        var cityName = $("<p>");
+        // Adding a class of new-city-p to <p>
+        cityName.addClass("new-city-p");
+        cityName.attr(cityArray[i]);
+        // Providing the <p> text
+        cityName.text(cityArray[i]);
+        // Adding the button to the buttons-view div
+        $(".city-card-body").append(cityName);
+        // ending bracket for displaySearchedCity function
+    }
+
+
+}
+
+
+
+
 function displayCurrentWeather(city){
         var weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
 
@@ -75,7 +106,6 @@ function uvIndex(lon, lat) {
     })
 }
 
-// var candy = "Seattle";
 function fiveDay(city) {
 	var fiveURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
     console.log(fiveURL);
@@ -109,36 +139,21 @@ function fiveDay(city) {
 $('#search-button').on('click', function(event){
     event.preventDefault();
     var city = $( "#city-input" ).val().trim();
-    // localstorage set item goes here
+    cityArray.unshift(city);
+    localStorage.setItem('searchedCity', JSON.stringify(cityArray))
     console.log(city);
 
     displayCurrentWeather(city);
+    displaySearchedCity(city);
     fiveDay(city);
 
 
 })
+$(".city-card-body").on("click", ".new-city-p", function (event) {
+    console.log(event.currentTarget.innerText);
+    event.preventDefault();
+    displayCurrentWeather(event.currentTarget.innerText);
+    fiveDay(event.currentTarget.innerText);
 })
-// fiveDay(candy);
-// })
-// }
 
-
-// City
-
-
-// Date
-
-
-// Icon image (visual representation of weather conditions)
-
-
-// Temperature
-
-
-// Humidity
-
-
-// Wind speed
-
-
-// UV index
+})
