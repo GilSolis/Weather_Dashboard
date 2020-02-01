@@ -15,7 +15,6 @@ if (cityArray) {
 // function to display searched cities.
 function displaySearchedCity(){
     $(".city-card-body").empty();
-    console.log(cityArray);
     // for loop over the cityarry and then dynamically append each item in the array to the city-card-body. 
     for (var i = 0; i < cityArray.length; i++) {
         var cityName = $("<p>");
@@ -44,14 +43,10 @@ function displayCurrentWeather(city){
             $(".weather-info").empty();
             $(".city-and-date").empty();
             $("#main").empty();
-            console.log(weatherInfo)
             var cityName = weatherInfo.name;
             var dt = weatherInfo.dt;
-            // console.log(dateInfo);
             var currentDate = moment.unix(dt).format("L");
-            // console.log("current date" + currentDate);
             var icon = weatherInfo.weather[0].icon
-            console.log(cityName)
             $(".city-and-date").append("<b>" + cityName + "\xa0\xa0" + "</b>");
             $(".city-and-date").append("<b>" + currentDate  + "</b>");
             $(".city-and-date").append(`<img src="http://openweathermap.org/img/w/${icon}.png">`);
@@ -69,10 +64,9 @@ function displayCurrentWeather(city){
 
             var lon = weatherInfo.coord.lon;
             var lat = weatherInfo.coord.lat;
-            console.log("***" + lat);
-           
+                       
             uvIndex(lon, lat);
-            console.log(uvIndex);
+            
     
     });
 };
@@ -80,14 +74,13 @@ function displayCurrentWeather(city){
 //function for getting UV index
 function uvIndex(lon, lat) {
 	var indexURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`;
-        console.log(indexURL);
+        
     $.ajax({
 		url: indexURL,
 		method: "GET"
 	}).done(function(uvInfo) {
-        console.log(uvInfo)
+        
         var uvValue = uvInfo.value;
-        console.log(uvValue);
         $(".weather-info").append("<p id='uv'>" + "UV Index: " + "</p>");
 		var uvBtn = $("<button>").text(uvValue);
 		$("#uv").append(uvBtn);
@@ -108,18 +101,14 @@ function uvIndex(lon, lat) {
 
 function fiveDay(city) {
 	var fiveURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
-    console.log(fiveURL);
     $(".forecastCards").empty();
     $.ajax({
 		url: fiveURL,
 		method: "GET"
 	}).then(function(response) {
-        console.log(response);
         var day = 1;
         for (var i = 1; i < response.list.length; i+=8) {
-            console.log(response.list[i]);
             var nextDay = moment.unix(response.list[i].dt).utc().format("L");
-            console.log(nextDay);
             $(".forecastCards").append('<div id="day'+day+'" >' + "<b>" + nextDay + "</b>" + "</div>")
             var forecastIcon = response.list[i].weather[0].icon
             $(`#day${day}`).append("<p>" + `<img src="http://openweathermap.org/img/w/${forecastIcon}.png">`+ "</p>")
@@ -141,8 +130,7 @@ $('#search-button').on('click', function(event){
     var city = $( "#city-input" ).val().trim();
     cityArray.unshift(city);
     localStorage.setItem('searchedCity', JSON.stringify(cityArray))
-    console.log(city);
-
+    
     displayCurrentWeather(city);
     displaySearchedCity(city);
     fiveDay(city);
@@ -150,7 +138,6 @@ $('#search-button').on('click', function(event){
 
 })
 $(".city-card-body").on("click", ".new-city-p", function (event) {
-    console.log(event.currentTarget.innerText);
     event.preventDefault();
     displayCurrentWeather(event.currentTarget.innerText);
     fiveDay(event.currentTarget.innerText);
