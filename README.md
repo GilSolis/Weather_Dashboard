@@ -10,7 +10,7 @@ https://gilsolis.github.io/Weather_Dashboard/
 * [BootStrap](https://getbootstrap.com/) - Build responsive, mobile-first projects on the web with the world’s most popular front-end component library.
 * [JQuery](https://jquery.com/) - The Write Less, Do More, JavaScript Library.
 * APIs:
-  * [Open Weather](https://openweathermap.org/)  
+* [Open Weather](https://openweathermap.org/)  
   
 
 # License 
